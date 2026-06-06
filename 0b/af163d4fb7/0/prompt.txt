@@ -1,0 +1,11 @@
+.github はいれましょうか。 ci でtest も回したいので
+
+---
+
+document で確認しましたが、名前は以下のルールでマッチすることを加味すると、変更したほうが良さそうですね
+match = [
+    "{{ name }}.plugin.zsh",match = [
+
+---
+
+entire-zsh.plugin.zsh のほうがいいんじゃない
