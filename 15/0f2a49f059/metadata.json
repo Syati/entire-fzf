@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.7.3",
+  "checkpoint_id": "150f2a49f059",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".github/workflows/ci.yml",
+    "README.md",
+    "entire-fzf.plugin.zsh",
+    "entire-zsh.plugin.zsh",
+    "test/branch_filter_test.zsh",
+    "test/checkpoint_action_test.zsh",
+    "test/functions_test.zsh",
+    "test/no_color_test.zsh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/15/0f2a49f059/0/metadata.json",
+      "transcript": "/15/0f2a49f059/0/full.jsonl",
+      "content_hash": "/15/0f2a49f059/0/content_hash.txt",
+      "prompt": "/15/0f2a49f059/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 18361,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1629952,
+    "output_tokens": 3520,
+    "api_call_count": 14
+  }
+}
