@@ -17,7 +17,7 @@ For local development, add this repository to `~/.config/sheldon/plugins.toml`:
 ```toml
 [plugins.entire]
 local = "/Users/mizuki-y/Projects/me/entire-zsh"
-use = ["entire-zsh"]
+use = ["entire-zsh.zsh"]
 ```
 
 After publishing the repository to GitHub, use:
@@ -25,7 +25,7 @@ After publishing the repository to GitHub, use:
 ```toml
 [plugins.entire]
 github = "mizuki-y/entire-zsh"
-use = ["entire-zsh"]
+use = ["entire-zsh.zsh"]
 ```
 
 Then reload your shell or run:
