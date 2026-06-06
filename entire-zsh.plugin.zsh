@@ -104,13 +104,21 @@ _entire_checkpoint_table_by_session() {
   _entire_checkpoint_list_by_session "$1" |
     awk '
       BEGIN {
-        printf "%s\t%s\n", "checkpoint_id", "message"
+        reset = "\033[0m"
+        checkpoint_id_color = ENVIRON["ENTIRE_ZSH_CHECKPOINT_ID_COLOR"]
+        if (ENVIRON["NO_COLOR"] != "") {
+          checkpoint_id_color = ""
+          reset = ""
+        } else if (checkpoint_id_color == "") {
+          checkpoint_id_color = "\033[33m"
+        }
+        printf "%s\t%s\t%s\n", "checkpoint_id", "checkpoint_id", "message"
       }
       /^●[[:space:]]+/ {
         checkpoint_id = $2
         message = $0
         sub(/^●[[:space:]]+[^[:space:]]+[[:space:]]+/, "", message)
-        printf "%s\t%s\n", checkpoint_id, message
+        printf "%s\t%s\t%s\n", checkpoint_id, checkpoint_id_color checkpoint_id reset, message
       }
     '
 }
@@ -149,7 +157,7 @@ _entire_checkpoint_pick_by_session() {
     _entire_checkpoint_table_by_session "$session_id" |
       fzf --ansi \
         --header-lines=1 \
-        --with-nth=1,2 \
+        --with-nth=2,3 \
         --delimiter=$'\t' \
         --prompt='entire checkpoint> ' \
         --height=50% \

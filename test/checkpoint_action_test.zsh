@@ -22,7 +22,7 @@ chmod +x "$tmpdir/test-bin/entire"
 export ENTIRE_TEST_LOG="$tmpdir/entire.log"
 export FZF_TEST_INPUT="$tmpdir/fzf-input.txt"
 
-PATH="$tmpdir/test-bin:$PATH" zsh -fc "
+env -u NO_COLOR PATH="$tmpdir/test-bin:$PATH" zsh -fc "
   source '$repo_root/entire-zsh.plugin.zsh'
 
   _entire_session_fzf() {
@@ -53,7 +53,7 @@ if [[ "$actual" != "$expected" ]]; then
 fi
 
 fzf_input=$(cat "$FZF_TEST_INPUT")
-expected_fzf_input=$'checkpoint_id\tmessage\ncp-selected\tselected checkpoint'
+expected_fzf_input=$'checkpoint_id\tcheckpoint_id\tmessage\ncp-selected\t\033[33mcp-selected\033[0m\tselected checkpoint'
 
 if [[ "$fzf_input" != "$expected_fzf_input" ]]; then
   print -u2 "Unexpected fzf checkpoint input:"
