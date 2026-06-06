@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.7.3",
+  "checkpoint_id": "8d90ab842098",
+  "strategy": "manual-commit",
+  "branch": "codex/add-workflow-instructions",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".gitignore"
+  ],
+  "sessions": [
+    {
+      "metadata": "/8d/90ab842098/0/metadata.json",
+      "transcript": "/8d/90ab842098/0/full.jsonl",
+      "content_hash": "/8d/90ab842098/0/content_hash.txt",
+      "prompt": "/8d/90ab842098/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 6424,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 168064,
+    "output_tokens": 1396,
+    "api_call_count": 7
+  }
+}
