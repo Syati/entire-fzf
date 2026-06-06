@@ -1,0 +1,5 @@
+apm.yml も gitignore していいかもね
+
+---
+
+esr で entire/ から始まるブランチは表示する必要ないよね
