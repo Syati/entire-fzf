@@ -1,9 +1,9 @@
 # fzf helpers for Entire CLI sessions.
 #
 # Usage:
-#   es     # session picker -> action picker (explain/checkpoints/info/stop/clean)
-#   esd    # entire dispatch --local
-#   esr    # pick branch and run entire session resume <branch>
+#   etf    # session picker -> action picker (explain/checkpoints/info/stop/clean)
+#   etfd   # entire dispatch --local
+#   etfr   # pick branch and run entire session resume <branch>
 
 _entire_session_list() {
   command entire session list --json 2>/dev/null |
@@ -207,15 +207,15 @@ _entire_session_action() {
   esac
 }
 
-es() {
+etf() {
   _entire_session_action
 }
 
-esd() {
+etfd() {
   command entire dispatch --local
 }
 
-esr() {
+etfr() {
   local branch
   branch=$(_entire_branch_pick) || return
   [[ -n "$branch" ]] || return
