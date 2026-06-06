@@ -74,8 +74,8 @@ _entire_branch_pick() {
   current_branch=$(git branch --show-current 2>/dev/null)
 
   selected=$(
-    git for-each-ref --format='%(refname:short)' --sort=-committerdate refs/heads refs/remotes/origin 2>/dev/null |
-      sed -e '/^origin\/HEAD$/d' -e 's#^origin/##' |
+    git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads refs/remotes/origin 2>/dev/null |
+      sed -e '/^refs\/remotes\/origin\/HEAD$/d' -e 's#^refs/heads/##' -e 's#^refs/remotes/origin/##' |
       awk -v cur="$current_branch" 'NF && $0 !~ /^entire\// && !seen[$0]++ { printf "%s\t%s\n", ($0 == cur ? "*" : " "), $0 }' |
       fzf --ansi \
         --delimiter=$'\t' \

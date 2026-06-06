@@ -19,6 +19,7 @@ git checkout -q -b entire/checkpoints/v1
 git checkout -q feature/demo
 git update-ref refs/remotes/origin/feature/remote HEAD
 git update-ref refs/remotes/origin/entire/remote HEAD
+git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/feature/remote
 
 mkdir -p test-bin
 cat > test-bin/fzf <<'EOF'
@@ -43,6 +44,12 @@ fi
 
 if print -r -- "$output" | grep -q '^entire/'; then
   print -u2 "Expected entire/* branches to be filtered:"
+  print -u2 -- "$output"
+  exit 1
+fi
+
+if print -r -- "$output" | grep -qx 'origin'; then
+  print -u2 "Expected origin/HEAD to be filtered:"
   print -u2 -- "$output"
   exit 1
 fi
