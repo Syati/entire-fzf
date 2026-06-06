@@ -32,3 +32,29 @@ jobs:
           grep -qx "es: function" /tmp/functions.txt
           grep -qx "esd: function" /tmp/functions.txt
           grep -qx "esr: function" /tmp/functions.txt
+
+      - name: Check branch filter
+        run: |
+          git config user.name "CI"
+          git config user.email "ci@example.com"
+          git checkout -b feature/demo
+          git checkout -b entire/checkpoints/v1
+          git checkout feature/demo
+          git update-ref refs/remotes/origin/feature/remote HEAD
+          git update-ref refs/remotes/origin/entire/remote HEAD
+          output="$(
+            PATH="$PWD/test-bin:$PATH" zsh -fc '
+              mkdir -p test-bin
+              cat > test-bin/fzf <<'"'"'EOF'"'"'
+#!/usr/bin/env sh
+cat
+EOF
+              chmod +x test-bin/fzf
+              source ./entire-zsh.plugin.zsh
+              _entire_branch_pick
+            '
+          )"
+          printf "%s\n" "$output"
+          printf "%s\n" "$output" | grep -qx "feature/demo"
+          printf "%s\n" "$output" | grep -qx "feature/remote"
+          ! printf "%s\n" "$output" | grep -q "^entire/"

@@ -76,7 +76,7 @@ _entire_branch_pick() {
   selected=$(
     git for-each-ref --format='%(refname:short)' --sort=-committerdate refs/heads refs/remotes/origin 2>/dev/null |
       sed -e '/^origin\/HEAD$/d' -e 's#^origin/##' |
-      awk -v cur="$current_branch" 'NF && !seen[$0]++ { printf "%s\t%s\n", ($0 == cur ? "*" : " "), $0 }' |
+      awk -v cur="$current_branch" 'NF && $0 !~ /^entire\// && !seen[$0]++ { printf "%s\t%s\n", ($0 == cur ? "*" : " "), $0 }' |
       fzf --ansi \
         --delimiter=$'\t' \
         --with-nth=1,2 \
