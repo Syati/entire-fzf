@@ -21,12 +21,12 @@ jobs:
           sudo apt-get install -y zsh
 
       - name: Check syntax
-        run: zsh -n entire-zsh.zsh
+        run: zsh -n entire-zsh.plugin.zsh
 
       - name: Check exported functions
         run: |
           zsh -fc '
-            source ./entire-zsh.zsh
+            source ./entire-zsh.plugin.zsh
             whence -w es esd esr
           ' | tee /tmp/functions.txt
           grep -qx "es: function" /tmp/functions.txt

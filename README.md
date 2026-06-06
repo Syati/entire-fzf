@@ -15,18 +15,18 @@ Zsh helpers for working with Entire CLI sessions through `fzf`.
 For local development, add this repository to `~/.config/sheldon/plugins.toml`:
 
 ```toml
-[plugins.entire]
+[plugins.entire-zsh]
 local = "/Users/mizuki-y/Projects/me/entire-zsh"
-use = ["entire-zsh.zsh"]
 ```
 
 After publishing the repository to GitHub, use:
 
 ```toml
-[plugins.entire]
+[plugins.entire-zsh]
 github = "mizuki-y/entire-zsh"
-use = ["entire-zsh.zsh"]
 ```
+
+Sheldon automatically matches `entire-zsh.plugin.zsh` from the plugin name `entire-zsh`.
 
 Then reload your shell or run:
 
