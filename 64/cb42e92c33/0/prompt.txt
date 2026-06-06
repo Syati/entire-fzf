@@ -1,5 +1,1 @@
-etfr に origin ってでてくるんだけど、これはリモートのを取得してる？
-
----
-
-main, origin, hogehoge_branch ってでるんだけど
+pr 作成して
