@@ -1,0 +1,25 @@
+?
+
+---
+
+entire.zsh zsh の plugin として sheldon でインストールできるようにしたい
+
+---
+
+gitignore を作成してください
+
+---
+
+entire.zsh ではなく entire-zsh にしてくれる？
+
+---
+
+origin を git@github.com:Syati/entire-zsh.git にして commit & push して
+
+---
+
+entire-zsh.zsh にしなくていいの？
+
+---
+
+修正してください
