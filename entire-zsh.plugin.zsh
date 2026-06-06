@@ -40,7 +40,7 @@ _entire_session_table() {
       }
       {
         status_color = ($2 == "running" || $2 == "active") ? green : ($2 == "stopped" || $2 == "failed" ? yellow : cyan)
-        printf "%s\t%10s\t%14s\t%14s\t%14s\t%6s\n", $1, status_color $2 reset, magenta $3 reset, cyan $4 reset, dim $5 reset, dim $6 reset
+        printf "%s\t%s\t%s\t%s\t%s\t%s\n", $1, status_color sprintf("%10s", $2) reset, magenta sprintf("%14s", $3) reset, cyan sprintf("%14s", $4) reset, dim sprintf("%14s", $5) reset, dim sprintf("%6s", $6) reset
       }
     '
 }

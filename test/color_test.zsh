@@ -10,8 +10,8 @@ _entire_session_list() {
 
 session_table=$(_entire_session_table)
 
-if [[ "$session_table" != *$'\033[32mrunning\033[0m'* ]]; then
-  print -u2 "Expected colored running session status:"
+if [[ "$session_table" != *$'\033[32m   running\033[0m'* ]]; then
+  print -u2 "Expected padded colored running session status:"
   print -u2 -- "$session_table"
   exit 1
 fi
