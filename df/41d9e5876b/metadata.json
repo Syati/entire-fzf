@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.7.3",
+  "checkpoint_id": "df41d9e5876b",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "entire-zsh.plugin.zsh",
+    "test/checkpoint_action_test.zsh",
+    "test/color_test.zsh",
+    "test/run.zsh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/df/41d9e5876b/0/metadata.json",
+      "transcript": "/df/41d9e5876b/0/full.jsonl",
+      "content_hash": "/df/41d9e5876b/0/content_hash.txt",
+      "prompt": "/df/41d9e5876b/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 20084,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 462720,
+    "output_tokens": 1648,
+    "api_call_count": 5
+  }
+}
