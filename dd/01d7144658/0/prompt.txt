@@ -1,5 +1,1 @@
-entire-zsh.plugin.zsh のほうがいいんじゃない
-
----
-
 apm.yml も gitignore していいかもね
