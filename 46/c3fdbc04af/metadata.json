@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.7.3",
+  "checkpoint_id": "46c3fdbc04af",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "entire-zsh.plugin.zsh",
+    "test/color_test.zsh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/46/c3fdbc04af/0/metadata.json",
+      "transcript": "/46/c3fdbc04af/0/full.jsonl",
+      "content_hash": "/46/c3fdbc04af/0/content_hash.txt",
+      "prompt": "/46/c3fdbc04af/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 27026,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 606848,
+    "output_tokens": 1744,
+    "api_call_count": 7
+  }
+}
