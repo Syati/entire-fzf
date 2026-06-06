@@ -1,0 +1,5 @@
+checkpoint から fzf すると すべての文が 選択対象になるから es と同様なインターフェスで checkpoint_id message の一覧と preview にしましょうか
+
+---
+
+es もそうだけど checkpoint 時も カラーにしたいね
