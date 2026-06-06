@@ -1,0 +1,9 @@
+zsh のテストって CIでしかテストできないの？ unit test みたいなのはかけないの？
+
+---
+
+entire checkpoint list
+
+---
+
+es checkpoint を押下したら list | fzf して 押下 explain のほうがいいじゃない？
