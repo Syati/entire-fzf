@@ -53,8 +53,9 @@ if [[ "$actual" != "$expected" ]]; then
 fi
 
 fzf_input=$(cat "$FZF_TEST_INPUT")
+expected_fzf_input=$'checkpoint_id\tcheckpoint_id\tmessage\ncp-selected\t\033[36mcp-selected\033[0m\t\033[33mselected checkpoint\033[0m'
 
-if [[ "$fzf_input" != $'checkpoint_id\tmessage\ncp-selected\tselected checkpoint' ]]; then
+if [[ "$fzf_input" != "$expected_fzf_input" ]]; then
   print -u2 "Unexpected fzf checkpoint input:"
   print -u2 -- "$fzf_input"
   exit 1

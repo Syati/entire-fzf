@@ -30,10 +30,17 @@ _entire_session_table() {
   _entire_session_list |
     awk -F '\t' '
       BEGIN {
+        reset = "\033[0m"
+        dim = "\033[2m"
+        green = "\033[32m"
+        yellow = "\033[33m"
+        cyan = "\033[36m"
+        magenta = "\033[35m"
         printf "__HEADER__\t%10s\t%14s\t%14s\t%14s\t%6s\n", "status", "agent", "started_at", "ended_at", "year"
       }
       {
-        printf "%s\t%10s\t%14s\t%14s\t%14s\t%6s\n", $1, $2, $3, $4, $5, $6
+        status_color = ($2 == "running" || $2 == "active") ? green : ($2 == "stopped" || $2 == "failed" ? yellow : cyan)
+        printf "%s\t%10s\t%14s\t%14s\t%14s\t%6s\n", $1, status_color $2 reset, magenta $3 reset, cyan $4 reset, dim $5 reset, dim $6 reset
       }
     '
 }
@@ -104,13 +111,16 @@ _entire_checkpoint_table_by_session() {
   _entire_checkpoint_list_by_session "$1" |
     awk '
       BEGIN {
-        printf "%s\t%s\n", "checkpoint_id", "message"
+        reset = "\033[0m"
+        cyan = "\033[36m"
+        yellow = "\033[33m"
+        printf "%s\t%s\t%s\n", "checkpoint_id", "checkpoint_id", "message"
       }
       /^●[[:space:]]+/ {
         checkpoint_id = $2
         message = $0
         sub(/^●[[:space:]]+[^[:space:]]+[[:space:]]+/, "", message)
-        printf "%s\t%s\n", checkpoint_id, message
+        printf "%s\t%s\t%s\n", checkpoint_id, cyan checkpoint_id reset, yellow message reset
       }
     '
 }
@@ -149,7 +159,7 @@ _entire_checkpoint_pick_by_session() {
     _entire_checkpoint_table_by_session "$session_id" |
       fzf --ansi \
         --header-lines=1 \
-        --with-nth=1,2 \
+        --with-nth=2,3 \
         --delimiter=$'\t' \
         --prompt='entire checkpoint> ' \
         --height=50% \
