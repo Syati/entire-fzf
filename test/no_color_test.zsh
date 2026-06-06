@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root=${0:A:h:h}
-source "$repo_root/entire-zsh.plugin.zsh"
+source "$repo_root/entire-fzf.plugin.zsh"
 
 _entire_checkpoint_list_by_session() {
   print -r -- '● cp-1 plain checkpoint'

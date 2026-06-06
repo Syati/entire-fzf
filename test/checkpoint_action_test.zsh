@@ -23,7 +23,7 @@ export ENTIRE_TEST_LOG="$tmpdir/entire.log"
 export FZF_TEST_INPUT="$tmpdir/fzf-input.txt"
 
 env -u NO_COLOR PATH="$tmpdir/test-bin:$PATH" zsh -fc "
-  source '$repo_root/entire-zsh.plugin.zsh'
+  source '$repo_root/entire-fzf.plugin.zsh'
 
   _entire_session_fzf() {
     print -r -- 'session-1\tactive\tcodex\t06-06 19:00\t-\t2026'

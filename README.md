@@ -1,4 +1,4 @@
-# entire-zsh
+# entire-fzf
 
 Zsh helpers for working with Entire CLI sessions through `fzf`.
 
@@ -15,18 +15,18 @@ Zsh helpers for working with Entire CLI sessions through `fzf`.
 For local development, add this repository to `~/.config/sheldon/plugins.toml`:
 
 ```toml
-[plugins.entire-zsh]
-local = "/Users/mizuki-y/Projects/me/entire-zsh"
+[plugins.entire-fzf]
+local = "/Users/mizuki-y/Projects/me/entire-fzf"
 ```
 
 After publishing the repository to GitHub, use:
 
 ```toml
-[plugins.entire-zsh]
-github = "mizuki-y/entire-zsh"
+[plugins.entire-fzf]
+github = "Syati/entire-fzf"
 ```
 
-Sheldon automatically matches `entire-zsh.plugin.zsh` from the plugin name `entire-zsh`.
+Sheldon automatically matches `entire-fzf.plugin.zsh` from the plugin name `entire-fzf`.
 
 Then reload your shell or run:
 
@@ -43,6 +43,6 @@ eval "$(sheldon source)"
 ## Test
 
 ```sh
-zsh -n entire-zsh.plugin.zsh
+zsh -n entire-fzf.plugin.zsh
 zsh test/run.zsh
 ```

@@ -5,7 +5,7 @@ repo_root=${0:A:h:h}
 tmpdir=$(mktemp -d)
 trap 'rm -rf "$tmpdir"' EXIT
 
-cp "$repo_root/entire-zsh.plugin.zsh" "$tmpdir/"
+cp "$repo_root/entire-fzf.plugin.zsh" "$tmpdir/"
 cd "$tmpdir"
 
 git init -q
@@ -27,7 +27,7 @@ cat
 EOF
 chmod +x test-bin/fzf
 
-output=$(PATH="$PWD/test-bin:$PATH" zsh -fc 'source ./entire-zsh.plugin.zsh; _entire_branch_pick')
+output=$(PATH="$PWD/test-bin:$PATH" zsh -fc 'source ./entire-fzf.plugin.zsh; _entire_branch_pick')
 
 if ! print -r -- "$output" | grep -qx 'feature/demo'; then
   print -u2 "Expected local feature branch in output:"

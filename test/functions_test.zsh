@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root=${0:A:h:h}
-source "$repo_root/entire-zsh.plugin.zsh"
+source "$repo_root/entire-fzf.plugin.zsh"
 
 for function_name in es esd esr; do
   actual=$(whence -w "$function_name")
