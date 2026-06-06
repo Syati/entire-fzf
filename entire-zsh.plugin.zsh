@@ -100,6 +100,21 @@ _entire_checkpoint_list_by_session() {
   command entire checkpoint list --session "$session_id"
 }
 
+_entire_checkpoint_table_by_session() {
+  _entire_checkpoint_list_by_session "$1" |
+    awk '
+      BEGIN {
+        printf "%s\t%s\n", "checkpoint_id", "message"
+      }
+      /^●[[:space:]]+/ {
+        checkpoint_id = $2
+        message = $0
+        sub(/^●[[:space:]]+[^[:space:]]+[[:space:]]+/, "", message)
+        printf "%s\t%s\n", checkpoint_id, message
+      }
+    '
+}
+
 _entire_checkpoint_id_from_line() {
   awk '{ if ($1 == "●") print $2; else print $1; exit }'
 }
@@ -131,11 +146,16 @@ _entire_checkpoint_pick_by_session() {
   [[ -n "$session_id" ]] || return 1
 
   line=$(
-    _entire_checkpoint_list_by_session "$session_id" |
+    _entire_checkpoint_table_by_session "$session_id" |
       fzf --ansi \
+        --header-lines=1 \
+        --with-nth=1,2 \
+        --delimiter=$'\t' \
         --prompt='entire checkpoint> ' \
         --height=50% \
         --reverse \
+        --preview='entire checkpoint explain {1} 2>/dev/null || true' \
+        --preview-window='down:70%:wrap' \
         --footer='Enter: explain selected checkpoint'
   ) || return
 
