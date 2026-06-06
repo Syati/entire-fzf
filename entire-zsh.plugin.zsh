@@ -56,7 +56,7 @@ _entire_session_fzf() {
 _entire_action_pick() {
   printf '%s\n' \
     'explain      : explain latest checkpoint' \
-    'checkpoints  : list checkpoints' \
+    'checkpoints  : pick checkpoint to explain' \
     'info         : session info' \
     'stop         : stop session' \
     'clean        : entire clean --session' |
@@ -100,6 +100,10 @@ _entire_checkpoint_list_by_session() {
   command entire checkpoint list --session "$session_id"
 }
 
+_entire_checkpoint_id_from_line() {
+  awk '{ if ($1 == "●") print $2; else print $1; exit }'
+}
+
 _entire_latest_checkpoint_id_by_session() {
   local session_id checkpoint_id
   session_id="$1"
@@ -108,13 +112,36 @@ _entire_latest_checkpoint_id_by_session() {
 
   checkpoint_id=$(
     _entire_checkpoint_list_by_session "$session_id" |
-      awk '/^●[[:space:]]+/ { print $2; exit }'
+      awk '/^●[[:space:]]+/ { print; exit }' |
+      _entire_checkpoint_id_from_line
   )
 
   [[ -n "$checkpoint_id" ]] || {
     print -u2 'No checkpoint found for selected session.'
     return 1
   }
+
+  print -r -- "$checkpoint_id"
+}
+
+_entire_checkpoint_pick_by_session() {
+  local session_id line checkpoint_id
+  session_id="$1"
+
+  [[ -n "$session_id" ]] || return 1
+
+  line=$(
+    _entire_checkpoint_list_by_session "$session_id" |
+      fzf --ansi \
+        --prompt='entire checkpoint> ' \
+        --height=50% \
+        --reverse \
+        --footer='Enter: explain selected checkpoint'
+  ) || return
+
+  [[ -n "$line" ]] || return
+  checkpoint_id=$(print -r -- "$line" | _entire_checkpoint_id_from_line)
+  [[ -n "$checkpoint_id" ]] || return 1
 
   print -r -- "$checkpoint_id"
 }
@@ -134,7 +161,8 @@ _entire_session_action() {
       command entire checkpoint explain "$checkpoint_id"
       ;;
     checkpoints)
-      _entire_checkpoint_list_by_session "$session_id"
+      checkpoint_id=$(_entire_checkpoint_pick_by_session "$session_id") || return
+      command entire checkpoint explain "$checkpoint_id"
       ;;
     info)
       command entire session info "$session_id"

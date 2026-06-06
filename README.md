@@ -36,7 +36,7 @@ eval "$(sheldon source)"
 
 ## Commands
 
-- `es`: pick an Entire session, then run an action such as explain, checkpoints, info, stop, or clean.
+- `es`: pick an Entire session, then run an action such as explain latest checkpoint, pick checkpoint to explain, info, stop, or clean.
 - `esd`: run `entire dispatch --local`.
 - `esr`: pick a Git branch, then run `entire session resume <branch>`.
 
