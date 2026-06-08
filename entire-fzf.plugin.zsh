@@ -3,7 +3,6 @@
 # Usage:
 #   etf    # session picker -> action picker (resume/explain/checkpoints/info/stop/clean)
 #   etfd   # entire dispatch --local
-#   etfr   # pick session, open matching agent
 
 typeset -r _ENTIRE_PREVIEW_WINDOW='down,70%,wrap'
 
@@ -196,11 +195,3 @@ etfd() {
   command entire dispatch --local
 }
 
-etfr() {
-  local line session_id agent
-  line=$(_entire_session_fzf) || return
-  [[ -n "$line" ]] || return
-  session_id=$(cut -f1 <<< "$line")
-  agent=$(cut -f3 <<< "$line" | xargs)
-  _entire_open_agent "$session_id" "$agent"
-}
