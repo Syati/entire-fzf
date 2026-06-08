@@ -3,7 +3,7 @@
   "checkpoint_id": "0bf6e4b310a2",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 5,
+  "checkpoints_count": 6,
   "files_touched": [
     "entire-fzf.plugin.zsh"
   ],
@@ -19,13 +19,19 @@
       "transcript": "/0b/f6e4b310a2/1/full.jsonl",
       "content_hash": "/0b/f6e4b310a2/1/content_hash.txt",
       "prompt": "/0b/f6e4b310a2/1/prompt.txt"
+    },
+    {
+      "metadata": "/0b/f6e4b310a2/2/metadata.json",
+      "transcript": "/0b/f6e4b310a2/2/full.jsonl",
+      "content_hash": "/0b/f6e4b310a2/2/content_hash.txt",
+      "prompt": "/0b/f6e4b310a2/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 12732,
+    "input_tokens": 60889,
     "cache_creation_tokens": 85008,
     "cache_read_tokens": 514122,
-    "output_tokens": 3115,
-    "api_call_count": 12
+    "output_tokens": 3150,
+    "api_call_count": 13
   }
 }
