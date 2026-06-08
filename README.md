@@ -36,13 +36,13 @@ eval "$(sheldon source)"
 
 ## Commands
 
-- `etf`: pick an Entire session, then run an action such as explain latest checkpoint, pick checkpoint to explain, info, stop, or clean.
-- `etfd`: run `entire dispatch --local`.
-- `etfr`: pick a Git branch, then run `entire session resume <branch>`.
+- `etf`: pick an Entire session, then run an action: resume, explain latest checkpoint, pick checkpoint to explain, info, stop, or clean.
+- `etfc`: pick a checkpoint from the active session in the current worktree, then explain it.
 
-## Test
+## CI
+
+Syntax check only:
 
 ```sh
 zsh -n entire-fzf.plugin.zsh
-zsh test/run.zsh
 ```
