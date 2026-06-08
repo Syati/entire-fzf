@@ -1,0 +1,9 @@
+push もしてください
+
+---
+
+checkpoint_action_test って意味ある？
+
+---
+
+削除しましょう
