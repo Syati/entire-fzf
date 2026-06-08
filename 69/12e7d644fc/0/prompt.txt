@@ -1,0 +1,9 @@
+commit
+
+---
+
+current session ベースで checkpoint があると便利化？
+
+---
+
+etfc ですね
