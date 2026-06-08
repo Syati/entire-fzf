@@ -65,7 +65,7 @@ _entire_action_pick() {
       --prompt='entire action> ' \
       --delimiter=':' \
       --with-nth=1,2 \
-      --height=50% \
+      --height=~50% \
       --reverse \
       --footer='Enter: run selected action'
 }
@@ -138,7 +138,7 @@ _entire_checkpoint_pick_by_session() {
         --with-nth=2,3 \
         --delimiter=$'\t' \
         --prompt='entire checkpoint> ' \
-        --height=50% \
+        --height=~50% \
         --reverse \
         --preview='entire checkpoint explain {1} 2>/dev/null || true' \
         --preview-window="$_ENTIRE_PREVIEW_WINDOW" \
