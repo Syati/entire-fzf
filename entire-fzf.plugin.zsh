@@ -5,6 +5,8 @@
 #   etfd   # entire dispatch --local
 #   etfr   # pick session, open matching agent
 
+typeset -r _ENTIRE_PREVIEW_WINDOW='down,70%,wrap'
+
 _entire_session_list() {
   command entire session list --json 2>/dev/null |
     jq -r '
@@ -39,8 +41,6 @@ _entire_session_table() {
 }
 
 _entire_session_fzf() {
-  local preview_window="$1"
-
   _entire_session_table |
     fzf --ansi \
       --header-lines=1 \
@@ -50,7 +50,7 @@ _entire_session_fzf() {
       --footer='Enter: select session | Ctrl-/: toggle preview' \
       --bind='ctrl-/:toggle-preview' \
       --preview='entire session info {1} --json 2>/dev/null | jq -C . || true' \
-      --preview-window="$preview_window"
+      --preview-window="$_ENTIRE_PREVIEW_WINDOW"
 }
 
 _entire_action_pick() {
@@ -141,7 +141,7 @@ _entire_checkpoint_pick_by_session() {
         --height=50% \
         --reverse \
         --preview='entire checkpoint explain {1} 2>/dev/null || true' \
-        --preview-window='down:50:wrap' \
+        --preview-window="$_ENTIRE_PREVIEW_WINDOW" \
         --footer='Enter: explain selected checkpoint'
   ) || return
 
@@ -173,7 +173,7 @@ _entire_open_agent() {
 _entire_session_action() {
   local line session_id agent checkpoint_id action
 
-  line=$(_entire_session_fzf 'down,40%,wrap') || return
+  line=$(_entire_session_fzf) || return
   [[ -n "$line" ]] || return
 
   session_id=$(cut -f1 <<< "$line")
@@ -217,7 +217,7 @@ etfd() {
 
 etfr() {
   local line session_id agent
-  line=$(_entire_session_fzf 'down:70%:wrap') || return
+  line=$(_entire_session_fzf) || return
   [[ -n "$line" ]] || return
   session_id=$(cut -f1 <<< "$line")
   agent=$(cut -f3 <<< "$line" | xargs)
