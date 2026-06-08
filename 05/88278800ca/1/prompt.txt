@@ -1,0 +1,10 @@
+etfr をしたとき、claude で resume されるかなとおもったけど以下だった。 case で 'Claude Code'ってうまくとれてないんでは？
+Session restored for agent: unknown
+
+---
+
+_entire_resume_and_agent をやめましょう。 entire_session_action \kara
+
+---
+
+_entire_resume_and_agent をやめましょう。 entire_session_action からは取得した agent と session_id が取得できるので、そのまま agent にわたすようにしましょう。というのも entire に resume は checkpoint ベースなのでローカルより古いことが多いため
