@@ -2,6 +2,7 @@
 #
 # Usage:
 #   etf    # session picker -> action picker (resume/explain/checkpoints/info/stop/clean)
+#   etfc   # checkpoint picker for current session -> explain
 
 typeset -r _ENTIRE_PREVIEW_WINDOW='down,70%,wrap'
 
@@ -186,8 +187,32 @@ _entire_session_action() {
   esac
 }
 
+_entire_current_session_id() {
+  local worktree
+  worktree=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
+
+  command entire session list --json 2>/dev/null |
+    jq -r --arg wt "$worktree" '
+      [.[] | select(.status == "active" and .worktree_path == $wt)] |
+      first | .session_id // empty
+    '
+}
+
 etf() {
   _entire_session_action
 }
 
+etfc() {
+  local session_id checkpoint_id
+  session_id=$(_entire_current_session_id) || {
+    print -u2 'No active session for current worktree.'
+    return 1
+  }
+  [[ -n "$session_id" ]] || {
+    print -u2 'No active session for current worktree.'
+    return 1
+  }
+  checkpoint_id=$(_entire_checkpoint_pick_by_session "$session_id") || return
+  command entire checkpoint explain "$checkpoint_id"
+}
 
