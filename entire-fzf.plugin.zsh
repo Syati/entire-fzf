@@ -70,16 +70,8 @@ _entire_action_pick() {
       --footer='Enter: run selected action'
 }
 
-_entire_checkpoint_list_by_session() {
-  local session_id
-  session_id="$1"
-
-  [[ -n "$session_id" ]] || return 1
-  command entire checkpoint list --session "$session_id"
-}
-
 _entire_checkpoint_table_by_session() {
-  _entire_checkpoint_list_by_session "$1" |
+  command entire checkpoint list --session "$1" 2>/dev/null |
     awk '
       BEGIN {
         reset = "\033[0m"
@@ -101,20 +93,13 @@ _entire_checkpoint_table_by_session() {
     '
 }
 
-_entire_checkpoint_id_from_line() {
-  awk '{ if ($1 == "●") print $2; else print $1; exit }'
-}
-
 _entire_latest_checkpoint_id_by_session() {
-  local session_id checkpoint_id
-  session_id="$1"
-
-  [[ -n "$session_id" ]] || return 1
+  local checkpoint_id
+  [[ -n "$1" ]] || return 1
 
   checkpoint_id=$(
-    _entire_checkpoint_list_by_session "$session_id" |
-      awk '/^●[[:space:]]+/ { print; exit }' |
-      _entire_checkpoint_id_from_line
+    command entire checkpoint list --session "$1" 2>/dev/null |
+      awk '/^●[[:space:]]+/ { print $2; exit }'
   )
 
   [[ -n "$checkpoint_id" ]] || {
@@ -126,13 +111,11 @@ _entire_latest_checkpoint_id_by_session() {
 }
 
 _entire_checkpoint_pick_by_session() {
-  local session_id line checkpoint_id
-  session_id="$1"
+  local checkpoint_id
+  [[ -n "$1" ]] || return 1
 
-  [[ -n "$session_id" ]] || return 1
-
-  line=$(
-    _entire_checkpoint_table_by_session "$session_id" |
+  checkpoint_id=$(
+    _entire_checkpoint_table_by_session "$1" |
       fzf --ansi \
         --header-lines=1 \
         --with-nth=2,3 \
@@ -142,13 +125,11 @@ _entire_checkpoint_pick_by_session() {
         --reverse \
         --preview='entire checkpoint explain {1} 2>/dev/null || true' \
         --preview-window="$_ENTIRE_PREVIEW_WINDOW" \
-        --footer='Enter: explain selected checkpoint'
+        --footer='Enter: explain selected checkpoint' |
+      cut -f1
   ) || return
 
-  [[ -n "$line" ]] || return
-  checkpoint_id=$(print -r -- "$line" | _entire_checkpoint_id_from_line)
   [[ -n "$checkpoint_id" ]] || return 1
-
   print -r -- "$checkpoint_id"
 }
 
