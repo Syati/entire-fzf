@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.7.3",
+  "checkpoint_id": "bbcf306651a2",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "entire-fzf.plugin.zsh",
+    "test/branch_filter_test.zsh",
+    "test/checkpoint_action_test.zsh",
+    "test/functions_test.zsh",
+    "test/no_color_test.zsh",
+    "test/run.zsh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/bb/cf306651a2/0/metadata.json",
+      "transcript": "/bb/cf306651a2/0/full.jsonl",
+      "content_hash": "/bb/cf306651a2/0/content_hash.txt",
+      "prompt": "/bb/cf306651a2/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 44,
+    "cache_creation_tokens": 62728,
+    "cache_read_tokens": 1835151,
+    "output_tokens": 31896,
+    "api_call_count": 33
+  }
+}

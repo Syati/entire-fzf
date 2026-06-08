@@ -1,0 +1,9 @@
+このプラグインを評価してください
+
+---
+
+修正してくたさい
+
+---
+
+old_function_name とかは不要。 branch_filter.test.zsh も不要では？
