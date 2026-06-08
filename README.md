@@ -10,7 +10,22 @@ Zsh helpers for working with Entire CLI sessions through `fzf`.
 - `jq`
 - `git`
 
-## Install with Sheldon
+## Install
+
+### Without a plugin manager
+
+Clone the repository and source the plugin from your `.zshrc`:
+
+```sh
+git clone https://github.com/Syati/entire-fzf.git ~/.zsh/entire-fzf
+```
+
+```zsh
+# ~/.zshrc
+source ~/.zsh/entire-fzf/entire-fzf.plugin.zsh
+```
+
+### With Sheldon
 
 For local development, add this repository to `~/.config/sheldon/plugins.toml`:
 
