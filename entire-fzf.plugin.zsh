@@ -2,7 +2,6 @@
 #
 # Usage:
 #   etf    # session picker -> action picker (resume/explain/checkpoints/info/stop/clean)
-#   etfd   # entire dispatch --local
 
 typeset -r _ENTIRE_PREVIEW_WINDOW='down,70%,wrap'
 
@@ -191,7 +190,4 @@ etf() {
   _entire_session_action
 }
 
-etfd() {
-  command entire dispatch --local
-}
 
