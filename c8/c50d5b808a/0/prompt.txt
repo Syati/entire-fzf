@@ -1,0 +1,7 @@
+以下で、entire_checkpoint_id をlist する関数になる？
+awk '/^●[[:space:]]+/ { print; exit }' |
+      _entire_checkpoint_id_from_line
+
+---
+
+checkpoint 周りがわかりにくいので、リファクタしてください
