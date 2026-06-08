@@ -193,7 +193,7 @@ _entire_current_session_id() {
 
   command entire session list --json 2>/dev/null |
     jq -r --arg wt "$worktree" '
-      [.[] | select(.status == "active" and .worktree_path == $wt)] |
+      [.[] | select(.status != "ended" and .worktree_path == $wt)] |
       first | .session_id // empty
     '
 }
