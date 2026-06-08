@@ -1,0 +1,16 @@
+entire_open_agent に渡す際 agent 引数にはspace がはいってるかな？以下のエラーがでる
+ etf                                                                         main  2⬆  1⬇
+No supported agent for:    Claude Code
+
+---
+
+Github copilot ではなく以下ですね
+No supported agent for: Copilot CLI
+
+---
+
+Copilot CLI 以外必要ですか？
+
+---
+
+Codex だけでよいとおもいます
