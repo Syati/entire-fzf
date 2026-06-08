@@ -49,23 +49,6 @@ Then reload your shell or run:
 eval "$(sheldon source)"
 ```
 
-## Demo
-
-### etf
-
-![etf demo](demo/etf.gif)
-
-### etfc
-
-![etfc demo](demo/etfc.gif)
-
-To regenerate:
-
-```sh
-vhs demo/etf.tape
-vhs demo/etfc.tape
-```
-
 ## Commands
 
 - `etf`: pick an Entire session, then run an action: resume, explain latest checkpoint, pick checkpoint to explain, info, stop, or clean.
