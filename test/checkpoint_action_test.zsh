@@ -15,7 +15,18 @@ chmod +x "$tmpdir/test-bin/fzf"
 
 cat > "$tmpdir/test-bin/entire" <<'EOF'
 #!/usr/bin/env sh
-printf '%s\n' "$*" >> "$ENTIRE_TEST_LOG"
+case "$1 $2" in
+  'checkpoint list')
+    printf '  branch       main\n'
+    printf '  checkpoints  2\n'
+    printf '\n'
+    printf '● cp-selected selected checkpoint\n'
+    printf '  06-06 19:40 (2a482d5) Explain selected checkpoint from picker\n'
+    ;;
+  *)
+    printf '%s\n' "$*" >> "$ENTIRE_TEST_LOG"
+    ;;
+esac
 EOF
 chmod +x "$tmpdir/test-bin/entire"
 
@@ -31,14 +42,6 @@ env -u NO_COLOR PATH="$tmpdir/test-bin:$PATH" zsh -fc "
 
   _entire_action_pick() {
     print -r -- 'checkpoints  : pick checkpoint to explain'
-  }
-
-  _entire_checkpoint_list_by_session() {
-    print -r -- '  branch       main'
-    print -r -- '  checkpoints  2'
-    print -r -- ''
-    print -r -- '● cp-selected selected checkpoint'
-    print -r -- '  06-06 19:40 (2a482d5) Explain selected checkpoint from picker'
   }
 
   _entire_session_action

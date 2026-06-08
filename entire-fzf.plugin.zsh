@@ -15,15 +15,17 @@ _entire_session_list() {
         (ts_parts($ts) as $p | if $p == null then "" else "\($p.m)-\($p.d) \($p.h):\($p.min)" end);
       def year($ts):
         (ts_parts($ts) as $p | if $p == null then "" else $p.y end);
-      sort_by(.last_active // .started_at) | reverse |
+      def active_ts:
+        if (.last_active // "") != "" then .last_active else (.started_at // "") end;
+      sort_by(active_ts) | reverse |
       .[] |
       [
         (.session_id // ""),
         (.status // ""),
         (.agent // ""),
-        (fmt(.last_active // .started_at // "")),
+        (fmt(active_ts)),
         (fmt(.ended_at // "") // "-" | if . == "" then "-" else . end),
-        (year(.last_active // .started_at // ""))
+        (year(active_ts))
       ] | @tsv
     '
 }
@@ -146,7 +148,8 @@ _entire_open_agent() {
       command copilot --resume="$session_id"
       ;;
     *)
-      print "No supported agent for: ${agent:-unknown}"
+      print -u2 "No supported agent for: ${agent:-unknown}"
+      return 1
       ;;
   esac
 }
@@ -158,7 +161,8 @@ _entire_session_action() {
   [[ -n "$line" ]] || return
 
   session_id=$(cut -f1 <<< "$line")
-  agent=$(cut -f3 <<< "$line" | xargs)
+  [[ -n "$session_id" ]] || return 1
+  agent=$(cut -f3 <<< "$line" | awk '{gsub(/^[[:space:]]+|[[:space:]]+$/, ""); print}')
   action=$(_entire_action_pick | awk -F ':' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $1); print $1}') || return
 
   case "$action" in
@@ -195,7 +199,8 @@ _entire_current_session_id() {
   command entire session list --json 2>/dev/null |
     jq -r --arg wt "$worktree" '
       [.[] | select(.status != "ended" and .worktree_path == $wt)] |
-      first | .session_id // empty
+      sort_by(if (.last_active // "") != "" then .last_active else (.started_at // "") end) |
+      last? | .session_id // empty
     '
 }
 

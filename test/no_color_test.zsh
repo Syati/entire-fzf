@@ -4,11 +4,17 @@ set -euo pipefail
 repo_root=${0:A:h:h}
 source "$repo_root/entire-fzf.plugin.zsh"
 
-_entire_checkpoint_list_by_session() {
-  print -r -- '● cp-1 plain checkpoint'
-}
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
 
-checkpoint_table=$(NO_COLOR=1 _entire_checkpoint_table_by_session session-1)
+mkdir -p "$tmpdir/test-bin"
+cat > "$tmpdir/test-bin/entire" <<'EOF'
+#!/usr/bin/env sh
+printf '● cp-1 plain checkpoint\n'
+EOF
+chmod +x "$tmpdir/test-bin/entire"
+
+checkpoint_table=$(NO_COLOR=1 PATH="$tmpdir/test-bin:$PATH" _entire_checkpoint_table_by_session session-1)
 expected=$'checkpoint_id\tcheckpoint_id\tmessage\ncp-1\tcp-1\tplain checkpoint'
 
 if [[ "$checkpoint_table" != "$expected" ]]; then
