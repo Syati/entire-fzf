@@ -1,0 +1,1 @@
+etf で .last_active もとるようにしましょうか。というのも status が ended であろうが、直近のagent で再開したいときがあるので。なので、sort は last_active にしましょうか
