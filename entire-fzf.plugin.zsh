@@ -1,9 +1,9 @@
 # fzf helpers for Entire CLI sessions.
 #
 # Usage:
-#   etf    # session picker -> action picker (explain/checkpoints/info/stop/clean)
+#   etf    # session picker -> action picker (resume/explain/checkpoints/info/stop/clean)
 #   etfd   # entire dispatch --local
-#   etfr   # pick branch and run entire session resume <branch>
+#   etfr   # pick session, open matching agent
 
 _entire_session_list() {
   command entire session list --json 2>/dev/null |
@@ -55,6 +55,7 @@ _entire_session_fzf() {
 
 _entire_action_pick() {
   printf '%s\n' \
+    'resume       : resume session and reopen matching agent' \
     'explain      : explain latest checkpoint' \
     'checkpoints  : pick checkpoint to explain' \
     'info         : session info' \
@@ -67,29 +68,6 @@ _entire_action_pick() {
       --height=50% \
       --reverse \
       --footer='Enter: run selected action'
-}
-
-_entire_branch_pick() {
-  local current_branch selected
-  current_branch=$(git branch --show-current 2>/dev/null)
-
-  selected=$(
-    git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads refs/remotes/origin 2>/dev/null |
-      sed -e '/^refs\/remotes\/origin\/HEAD$/d' -e 's#^refs/heads/##' -e 's#^refs/remotes/origin/##' |
-      awk -v cur="$current_branch" 'NF && $0 !~ /^entire\// && !seen[$0]++ { printf "%s\t%s\n", ($0 == cur ? "*" : " "), $0 }' |
-      fzf --ansi \
-        --delimiter=$'\t' \
-        --with-nth=1,2 \
-        --prompt='entire branch> ' \
-        --height=40% \
-        --reverse \
-        --preview='git -c color.ui=always log --color=always --oneline --decorate -n 20 {2} 2>/dev/null || git -c color.ui=always log --color=always --oneline --decorate -n 20 origin/{2} 2>/dev/null || echo "No commit preview available"' \
-        --preview-window='down:60%:wrap' \
-        --footer='Enter: run entire session resume on selected branch'
-  ) || return
-
-  [[ -n "$selected" ]] || return
-  cut -f2 <<< "$selected"
 }
 
 _entire_checkpoint_list_by_session() {
@@ -163,7 +141,7 @@ _entire_checkpoint_pick_by_session() {
         --height=50% \
         --reverse \
         --preview='entire checkpoint explain {1} 2>/dev/null || true' \
-        --preview-window='down:70%:wrap' \
+        --preview-window='down:50:wrap' \
         --footer='Enter: explain selected checkpoint'
   ) || return
 
@@ -174,16 +152,38 @@ _entire_checkpoint_pick_by_session() {
   print -r -- "$checkpoint_id"
 }
 
-_entire_session_action() {
-  local line session_id checkpoint_id action
+_entire_open_agent() {
+  local session_id="$1" agent="$2"
+  case "$agent" in
+    'Claude Code')
+      command claude -r "$session_id"
+      ;;
+    'Codex'|'OpenAI Codex')
+      command codex resume "$session_id"
+      ;;
+    'GitHub Copilot'|'Copilot')
+      command copilot --resume="$session_id"
+      ;;
+    *)
+      print "No supported agent for: ${agent:-unknown}"
+      ;;
+  esac
+}
 
-  line=$(_entire_session_fzf 'down:70%:wrap') || return
+_entire_session_action() {
+  local line session_id agent checkpoint_id action
+
+  line=$(_entire_session_fzf 'down,40%,wrap') || return
   [[ -n "$line" ]] || return
 
   session_id=$(cut -f1 <<< "$line")
+  agent=$(cut -f3 <<< "$line")
   action=$(_entire_action_pick | awk -F ':' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $1); print $1}') || return
 
   case "$action" in
+    resume)
+      _entire_open_agent "$session_id" "$agent"
+      ;;
     explain)
       checkpoint_id=$(_entire_latest_checkpoint_id_by_session "$session_id") || return
       command entire checkpoint explain "$checkpoint_id"
@@ -216,8 +216,10 @@ etfd() {
 }
 
 etfr() {
-  local branch
-  branch=$(_entire_branch_pick) || return
-  [[ -n "$branch" ]] || return
-  command entire session resume "$branch"
+  local line session_id agent
+  line=$(_entire_session_fzf 'down:70%:wrap') || return
+  [[ -n "$line" ]] || return
+  session_id=$(cut -f1 <<< "$line")
+  agent=$(cut -f3 <<< "$line")
+  _entire_open_agent "$session_id" "$agent"
 }

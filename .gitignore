@@ -15,3 +15,6 @@ temp/
 .entire/
 .github/hooks/
 apm.yml
+
+# IntelliJ IDEA project files
+.idea/
