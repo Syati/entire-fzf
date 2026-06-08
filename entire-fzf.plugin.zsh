@@ -158,10 +158,10 @@ _entire_open_agent() {
     'Claude Code')
       command claude -r "$session_id"
       ;;
-    'Codex'|'OpenAI Codex')
+    'Codex')
       command codex resume "$session_id"
       ;;
-    'GitHub Copilot'|'Copilot')
+    'Copilot CLI')
       command copilot --resume="$session_id"
       ;;
     *)
@@ -177,7 +177,7 @@ _entire_session_action() {
   [[ -n "$line" ]] || return
 
   session_id=$(cut -f1 <<< "$line")
-  agent=$(cut -f3 <<< "$line")
+  agent=$(cut -f3 <<< "$line" | xargs)
   action=$(_entire_action_pick | awk -F ':' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $1); print $1}') || return
 
   case "$action" in
@@ -220,6 +220,6 @@ etfr() {
   line=$(_entire_session_fzf 'down:70%:wrap') || return
   [[ -n "$line" ]] || return
   session_id=$(cut -f1 <<< "$line")
-  agent=$(cut -f3 <<< "$line")
+  agent=$(cut -f3 <<< "$line" | xargs)
   _entire_open_agent "$session_id" "$agent"
 }
