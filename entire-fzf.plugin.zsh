@@ -205,10 +205,7 @@ etf() {
 
 etfc() {
   local session_id checkpoint_id
-  session_id=$(_entire_current_session_id) || {
-    print -u2 'No active session for current worktree.'
-    return 1
-  }
+  session_id=$(_entire_current_session_id)
   [[ -n "$session_id" ]] || {
     print -u2 'No active session for current worktree.'
     return 1
