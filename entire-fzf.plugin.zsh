@@ -15,14 +15,15 @@ _entire_session_list() {
         (ts_parts($ts) as $p | if $p == null then "" else "\($p.m)-\($p.d) \($p.h):\($p.min)" end);
       def year($ts):
         (ts_parts($ts) as $p | if $p == null then "" else $p.y end);
+      sort_by(.last_active // .started_at) | reverse |
       .[] |
       [
         (.session_id // ""),
         (.status // ""),
         (.agent // ""),
-        (fmt(.started_at // .last_active // "")),
+        (fmt(.last_active // .started_at // "")),
         (fmt(.ended_at // "") // "-" | if . == "" then "-" else . end),
-        (year(.started_at // .last_active // ""))
+        (year(.last_active // .started_at // ""))
       ] | @tsv
     '
 }
@@ -31,7 +32,7 @@ _entire_session_table() {
   _entire_session_list |
     awk -F '\t' '
       BEGIN {
-        printf "__HEADER__\t%10s\t%14s\t%14s\t%14s\t%6s\n", "status", "agent", "started_at", "ended_at", "year"
+        printf "__HEADER__\t%10s\t%14s\t%14s\t%14s\t%6s\n", "status", "agent", "last_active", "ended_at", "year"
       }
       {
         printf "%s\t%10s\t%14s\t%14s\t%14s\t%6s\n", $1, $2, $3, $4, $5, $6
