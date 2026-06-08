@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.7.3",
+  "checkpoint_id": "f3dcdd74deba",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "entire-fzf.plugin.zsh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/f3/dcdd74deba/0/metadata.json",
+      "transcript": "/f3/dcdd74deba/0/full.jsonl",
+      "content_hash": "/f3/dcdd74deba/0/content_hash.txt",
+      "prompt": "/f3/dcdd74deba/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 5,
+    "cache_creation_tokens": 806,
+    "cache_read_tokens": 214822,
+    "output_tokens": 687,
+    "api_call_count": 3
+  }
+}
