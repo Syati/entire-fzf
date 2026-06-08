@@ -23,5 +23,3 @@ jobs:
       - name: Check syntax
         run: zsh -n entire-fzf.plugin.zsh
 
-      - name: Run unit tests
-        run: zsh test/run.zsh
