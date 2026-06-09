@@ -2,6 +2,8 @@
 
 Zsh helpers for working with Entire CLI sessions through `fzf`.
 
+![Demo](demo/demo.gif)
+
 ## Requirements
 
 - `zsh`
