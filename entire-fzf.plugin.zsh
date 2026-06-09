@@ -147,6 +147,9 @@ _entire_open_agent() {
     'Copilot CLI')
       command copilot --resume="$session_id"
       ;;
+    'Gemini CLI')
+      command gemini --resume="$session_id"
+      ;;
     *)
       print -u2 "No supported agent for: ${agent:-unknown}"
       return 1
