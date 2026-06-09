@@ -1,0 +1,5 @@
+@entire-fzf.plugin.zsh:138 に Gemeni もくわえてください
+
+---
+
+Gemini ではなく Gemini CLI ですね
