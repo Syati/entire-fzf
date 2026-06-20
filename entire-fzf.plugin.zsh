@@ -7,8 +7,25 @@
 # Allow repeated sourcing (e.g. `source ~/.zshrc`) without readonly reassign errors.
 : "${_ENTIRE_PREVIEW_WINDOW:=down,70%,wrap}"
 
+_entire_sessions_json_array() {
+  local raw
+
+  raw=$(command entire session list --json 2>/dev/null) || {
+    print -r -- '[]'
+    return 0
+  }
+
+  # `entire session list --json` may print non-JSON text such as "No sessions".
+  jq -e 'type == "array"' >/dev/null 2>&1 <<< "$raw" || {
+    print -r -- '[]'
+    return 0
+  }
+
+  print -r -- "$raw"
+}
+
 _entire_session_list() {
-  command entire session list --json 2>/dev/null |
+  _entire_sessions_json_array |
     jq -r '
       def ts_parts($ts):
         ($ts | tostring | try capture("^(?<y>[0-9]{4})-(?<m>[0-9]{2})-(?<d>[0-9]{2})[T ](?<h>[0-9]{2}):(?<min>[0-9]{2})") catch null);
@@ -200,7 +217,7 @@ _entire_current_session_id() {
   local worktree
   worktree=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
 
-  command entire session list --json 2>/dev/null |
+  _entire_sessions_json_array |
     jq -r --arg wt "$worktree" '
       [.[] | select(.status != "ended" and .worktree_path == $wt)] |
       sort_by(if (.last_active // "") != "" then .last_active else (.started_at // "") end) |
