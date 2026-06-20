@@ -1,0 +1,53 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "3f562e628ed9",
+  "session_id": "5b8a08e8-cda3-4d0c-a67b-7db2bdf6c2d4",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-20T02:05:33.583957Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "entire-fzf.plugin.zsh"
+  ],
+  "agent": "Copilot CLI",
+  "model": "",
+  "turn_id": "b8df51fb0e6d",
+  "token_usage": {
+    "input_tokens": 0,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 0,
+    "api_call_count": 0
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-20T02:05:33.581569Z",
+    "agent_lines": 19,
+    "agent_removed": 2,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 19,
+    "total_lines_changed": 21,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 19,
+      "agent_lines_removed": 2
+    }
+  ]
+}

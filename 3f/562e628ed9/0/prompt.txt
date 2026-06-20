@@ -1,0 +1,6 @@
+entire session list が empty の場合 No sessions がかえってくるため以下が出力されている
+entire session> jq: parse error: Invalid numeric literal at line 3, column 7
+
+---
+
+No sessions って返しますか
