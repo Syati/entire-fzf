@@ -4,7 +4,8 @@
 #   etf    # session picker -> action picker (resume/explain/checkpoints/info/stop/clean)
 #   etfc   # checkpoint picker for current session -> explain
 
-typeset -r _ENTIRE_PREVIEW_WINDOW='down,70%,wrap'
+# Allow repeated sourcing (e.g. `source ~/.zshrc`) without readonly reassign errors.
+: "${_ENTIRE_PREVIEW_WINDOW:=down,70%,wrap}"
 
 _entire_session_list() {
   command entire session list --json 2>/dev/null |
