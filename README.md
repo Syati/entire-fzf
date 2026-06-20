@@ -29,15 +29,6 @@ source ~/.zsh/entire-fzf/entire-fzf.plugin.zsh
 
 ### With Sheldon
 
-For local development, add this repository to `~/.config/sheldon/plugins.toml`:
-
-```toml
-[plugins.entire-fzf]
-local = "/Users/mizuki-y/Projects/me/entire-fzf"
-```
-
-After publishing the repository to GitHub, use:
-
 ```toml
 [plugins.entire-fzf]
 github = "Syati/entire-fzf"
@@ -55,11 +46,3 @@ eval "$(sheldon source)"
 
 - `etf`: pick an Entire session, then run an action: resume, explain latest checkpoint, pick checkpoint to explain, info, stop, or clean.
 - `etfc`: pick a checkpoint from the active session in the current worktree, then explain it.
-
-## CI
-
-Syntax check only:
-
-```sh
-zsh -n entire-fzf.plugin.zsh
-```
