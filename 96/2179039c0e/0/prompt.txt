@@ -1,0 +1,2 @@
+docker 環境で実行すると以下のエラーがでる
+unknown option: --footer
