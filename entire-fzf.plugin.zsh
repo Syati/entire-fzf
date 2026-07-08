@@ -25,19 +25,24 @@ _entire_fzf_footer_args() {
   printf '%s\n' "--footer=$1"
 }
 
+_entire_session_list_json() {
+  command entire session list --json 2>/dev/null
+}
+
 _entire_sessions_json_array() {
   local raw
 
-  raw=$(command entire session list --json 2>/dev/null) || {
-    print -r -- '[]'
-    return 0
-  }
+  raw=$(_entire_session_list_json) || raw='[]'
 
-  # `entire session list --json` may print non-JSON text such as "No sessions".
-  jq -e 'type == "array"' >/dev/null 2>&1 <<< "$raw" || {
-    print -r -- '[]'
-    return 0
-  }
+  # `entire session list --json` may need a warm-up call or may print non-JSON text
+  # such as "No sessions". Retry once after a plain list call when the payload is
+  # invalid or unexpectedly empty.
+  if ! jq -e 'type == "array" and length > 0' >/dev/null 2>&1 <<< "$raw"; then
+    command entire session list >/dev/null 2>&1 || true
+    raw=$(_entire_session_list_json) || raw='[]'
+  fi
+
+  jq -e 'type == "array"' >/dev/null 2>&1 <<< "$raw" || raw='[]'
 
   print -r -- "$raw"
 }
