@@ -6,24 +6,6 @@
 
 # Allow repeated sourcing (e.g. `source ~/.zshrc`) without readonly reassign errors.
 : "${_ENTIRE_PREVIEW_WINDOW:=down,70%,wrap}"
-: "${_ENTIRE_FZF_SUPPORTS_FOOTER:=}"
-
-_entire_detect_fzf_footer_support() {
-  [[ -n "$_ENTIRE_FZF_SUPPORTS_FOOTER" ]] && return 0
-
-  if command fzf --help 2>/dev/null | grep -q -- '--footer'; then
-    _ENTIRE_FZF_SUPPORTS_FOOTER=1
-  else
-    _ENTIRE_FZF_SUPPORTS_FOOTER=0
-  fi
-}
-
-_entire_fzf_footer_args() {
-  _entire_detect_fzf_footer_support
-  [[ "$_ENTIRE_FZF_SUPPORTS_FOOTER" == "1" ]] || return 0
-
-  printf '%s\n' "--footer=$1"
-}
 
 _entire_session_list_json() {
   command entire session list --json 2>/dev/null
@@ -84,25 +66,19 @@ _entire_session_table() {
 }
 
 _entire_session_fzf() {
-  local -a footer_args
-  footer_args=(${(@f)$(_entire_fzf_footer_args 'Enter: select session | Ctrl-/: toggle preview')})
-
   _entire_session_table |
     fzf --ansi \
       --header-lines=1 \
       --with-nth=2.. \
       --delimiter=$'\t' \
       --prompt='entire session> ' \
-      "${footer_args[@]}" \
+      --footer='Enter: select session | Ctrl-/: toggle preview' \
       --bind='ctrl-/:toggle-preview' \
       --preview='entire session info {1} --json 2>/dev/null | jq -C . || true' \
       --preview-window="$_ENTIRE_PREVIEW_WINDOW"
 }
 
 _entire_action_pick() {
-  local -a footer_args
-  footer_args=(${(@f)$(_entire_fzf_footer_args 'Enter: run selected action')})
-
   printf '%s\n' \
     'resume       : resume session and reopen matching agent' \
     'explain      : explain latest checkpoint' \
@@ -116,7 +92,7 @@ _entire_action_pick() {
       --with-nth=1,2 \
       --height=~50% \
       --reverse \
-      "${footer_args[@]}"
+      --footer='Enter: run selected action'
 }
 
 _entire_checkpoint_table_by_session() {
@@ -161,9 +137,7 @@ _entire_latest_checkpoint_id_by_session() {
 
 _entire_checkpoint_pick_by_session() {
   local checkpoint_id
-  local -a footer_args
   [[ -n "$1" ]] || return 1
-  footer_args=(${(@f)$(_entire_fzf_footer_args 'Enter: explain selected checkpoint')})
 
   checkpoint_id=$(
     _entire_checkpoint_table_by_session "$1" |
@@ -176,7 +150,7 @@ _entire_checkpoint_pick_by_session() {
         --reverse \
         --preview='entire checkpoint explain {1} 2>/dev/null || true' \
         --preview-window="$_ENTIRE_PREVIEW_WINDOW" \
-        "${footer_args[@]}" |
+        --footer='Enter: explain selected checkpoint' |
       cut -f1
   ) || return
 
