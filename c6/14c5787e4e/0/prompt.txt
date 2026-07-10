@@ -1,0 +1,1 @@
+handle fzf without footer サポートいれたけどもどしてもらってもいい？
